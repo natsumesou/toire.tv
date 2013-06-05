@@ -33,6 +33,10 @@ module.exports = (grunt) ->
         files: ["<%= yeoman.app %>/scripts/{,*/}*.coffee"]
         tasks: ["coffee:dist"]
 
+      coffeeSrc:
+          files: ["<%= yeoman.src %>/{,*/}*.coffee"]
+          tasks: ["coffee:src"]
+
       coffeeTest:
         files: ["test/spec/{,*/}*.coffee"]
         tasks: ["coffee:test"]
@@ -49,7 +53,7 @@ module.exports = (grunt) ->
 
     connect:
       options:
-        port: 9000
+        port: 3000
 
         # change this to '0.0.0.0' to access the server from outside
         hostname: "localhost"
@@ -228,7 +232,7 @@ module.exports = (grunt) ->
   grunt.registerTask "server", (target) ->
     return grunt.task.run(["build", "open", "connect:dist:keepalive"])  if target is "dist"
     # grunt.task.run ["clean:server", "concurrent:server", "connect:livereload", "open", "watch"]
-    grunt.task.run ["clean:server", "concurrent:server", "express", "express-keepalive", "open", "watch"]
+    grunt.task.run ["clean:server", "concurrent:server", "express", "open", "watch"]
 
   grunt.registerTask "test", ["clean:server", "concurrent:test", "connect:test", "mocha"]
   grunt.registerTask "build", ["clean:dist", "useminPrepare", "concurrent:dist", "cssmin", "copy", "rev", "usemin"]
