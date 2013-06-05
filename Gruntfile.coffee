@@ -20,7 +20,7 @@ module.exports = (grunt) ->
   # configurable paths
   yeomanConfig =
     app: "app"
-    dist: "dist"
+    dist: "app/public"
     src: "src"
 
   grunt.initConfig
@@ -30,7 +30,7 @@ module.exports = (grunt) ->
         nospawn: true
 
       coffee:
-        files: ["<%= yeoman.app %>/scripts/{,*/}*.coffee"]
+        files: ["<%= yeoman.src %>/scripts/{,*/}*.coffee"]
         tasks: ["coffee:dist"]
 
       coffeeSrc:
@@ -42,14 +42,14 @@ module.exports = (grunt) ->
         tasks: ["coffee:test"]
 
       compass:
-        files: ["<%= yeoman.app %>/styles/{,*/}*.{scss,sass}"]
+        files: ["<%= yeoman.src %>/styles/{,*/}*.{scss,sass}"]
         tasks: ["compass:server"]
 
       livereload:
         options:
           livereload: LIVERELOAD_PORT
 
-        files: ["<%= yeoman.app %>/*.html", "{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css", "{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js", "<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}"]
+        files: ["<%= yeoman.app %>/public/{,*/}*.html", "{.tmp,<%= yeoman.app %>}/public/{,*/}*.css", "{.tmp,<%= yeoman.app %>}/public/{,*/}*.js"]
 
     connect:
       options:
@@ -90,7 +90,7 @@ module.exports = (grunt) ->
       options:
         jshintrc: ".jshintrc"
 
-      all: ["Gruntfile.js", "<%= yeoman.app %>/scripts/{,*/}*.js", "!<%= yeoman.app %>/scripts/vendor/*", "test/spec/{,*/}*.js"]
+      all: ["Gruntfile.js", "<%= yeoman.app %>/public/{,*/}*.js", "!<%= yeoman.app %>/public/javascripts/vendor/*", "test/spec/{,*/}*.js"]
 
     mocha:
       all:
@@ -102,9 +102,9 @@ module.exports = (grunt) ->
       dist:
         files: [
           expand: true
-          cwd: "<%= yeoman.app %>/scripts"
+          cwd: "<%= yeoman.src %>/scripts"
           src: "{,*/}*.coffee"
-          dest: ".tmp/scripts"
+          dest: "<%= yeoman.app %>/public/javascripts"
           ext: ".js"
         ]
       src:
@@ -133,11 +133,11 @@ module.exports = (grunt) ->
 
     compass:
       options:
-        sassDir: "<%= yeoman.app %>/styles"
+        sassDir: "<%= yeoman.src %>/styles"
         cssDir: ".tmp/styles"
         generatedImagesDir: ".tmp/images/generated"
         imagesDir: "<%= yeoman.app %>/images"
-        javascriptsDir: "<%= yeoman.app %>/scripts"
+        javascriptsDir: "<%= yeoman.app %>/public/javascripts"
         fontsDir: "<%= yeoman.app %>/styles/fonts"
         importPath: "<%= yeoman.app %>/bower_components"
         httpImagesPath: "/images"
@@ -152,20 +152,20 @@ module.exports = (grunt) ->
     rev:
       dist:
         files:
-          src: ["<%= yeoman.dist %>/scripts/{,*/}*.js", "<%= yeoman.dist %>/styles/{,*/}*.css", "<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}", "<%= yeoman.dist %>/styles/fonts/*"]
+          src: ["<%= yeoman.app %>/public/javascripts/{,*/}*.js", "<%= yeoman.app %>/public/stylesheets/{,*/}*.css", "<%= yeoman.app %>/public/images/{,*/}*.{png,jpg,jpeg,gif,webp}"]
 
     useminPrepare:
       options:
-        dest: "<%= yeoman.dist %>"
+        dest: "<%= yeoman.app %>/public/javascripts"
 
-      html: "<%= yeoman.app %>/index.html"
+      html: "<%= yeoman.app %>/views/layoutHead.ejs"
 
     usemin:
       options:
-        dirs: ["<%= yeoman.dist %>"]
+        dirs: ["<%= yeoman.app %>/public/javascripts"]
 
-      html: ["<%= yeoman.dist %>/{,*/}*.html"]
-      css: ["<%= yeoman.dist %>/styles/{,*/}*.css"]
+      html: ["<%= yeoman.app %>/views/{,*/}*.ejs"]
+      css: ["<%= yeoman.app %>/public/stylesheets/{,*/}*.css"]
 
     imagemin:
       dist:
@@ -179,7 +179,7 @@ module.exports = (grunt) ->
     cssmin:
       dist:
         files:
-          "<%= yeoman.dist %>/styles/main.css": [".tmp/styles/{,*/}*.css", "<%= yeoman.app %>/styles/{,*/}*.css"]
+          "<%= yeoman.dist %>/stylesheets/main.css": [".tmp/styles/{,*/}*.css"]
 
     htmlmin:
       dist:
@@ -231,8 +231,8 @@ module.exports = (grunt) ->
 
   grunt.registerTask "server", (target) ->
     return grunt.task.run(["build", "open", "connect:dist:keepalive"])  if target is "dist"
-    # grunt.task.run ["clean:server", "concurrent:server", "connect:livereload", "open", "watch"]
-    grunt.task.run ["clean:server", "concurrent:server", "express", "open", "watch"]
+    grunt.task.run ["clean:server", "concurrent:server", "connect:livereload", "open", "watch"]
+    #grunt.task.run ["clean:server", "concurrent:server", "express", "open", "watch"]
 
   grunt.registerTask "test", ["clean:server", "concurrent:test", "connect:test", "mocha"]
   grunt.registerTask "build", ["clean:dist", "useminPrepare", "concurrent:dist", "cssmin", "copy", "rev", "usemin"]
