@@ -1,10 +1,5 @@
 # Generated on 2013-06-04 using generator-webapp 0.2.2
 "use strict"
-LIVERELOAD_PORT = 35729
-lrSnippet = require("connect-livereload")(port: LIVERELOAD_PORT)
-mountFolder = (connect, dir) ->
-  connect.static require("path").resolve(dir)
-
 
 # # Globbing
 # for performance reasons we're only matching one level down:
@@ -23,8 +18,18 @@ module.exports = (grunt) ->
     dist: "app/public"
     src: "src"
 
+  expressConfig =
+    port: 3000
+    bases: "app"
+    server: path.resolve("app/app")
+
   grunt.initConfig
     yeoman: yeomanConfig
+
+    express:
+      server:
+        options: expressConfig
+
     watch:
       options:
         nospawn: true
@@ -45,37 +50,9 @@ module.exports = (grunt) ->
         files: ["<%= yeoman.src %>/styles/{,*/}*.{scss,sass}"]
         tasks: ["compass:server"]
 
-      livereload:
-        options:
-          livereload: LIVERELOAD_PORT
-
-        files: ["<%= yeoman.app %>/public/{,*/}*.html", "{.tmp,<%= yeoman.app %>}/public/{,*/}*.css", "{.tmp,<%= yeoman.app %>}/public/{,*/}*.js"]
-
-    connect:
-      options:
-        port: 3000
-
-        # change this to '0.0.0.0' to access the server from outside
-        hostname: "localhost"
-
-      livereload:
-        options:
-          middleware: (connect) ->
-            [mountFolder(connect, ".tmp"), mountFolder(connect, yeomanConfig.app), lrSnippet]
-
-      test:
-        options:
-          middleware: (connect) ->
-            [mountFolder(connect, ".tmp"), mountFolder(connect, "test")]
-
-      dist:
-        options:
-          middleware: (connect) ->
-            [mountFolder(connect, yeomanConfig.dist)]
-
     open:
       server:
-        path: "http://localhost:<%= connect.options.port %>"
+        path: "http://localhost:<%= express.server.options.port %>"
 
     clean:
       dist:
@@ -90,13 +67,13 @@ module.exports = (grunt) ->
       options:
         jshintrc: ".jshintrc"
 
-      all: ["Gruntfile.js", "<%= yeoman.app %>/public/{,*/}*.js", "!<%= yeoman.app %>/public/javascripts/vendor/*", "test/spec/{,*/}*.js"]
+      all: ["Gruntfile.js", "<%= yeoman.dist %>/{,*/}*.js", "!<%= yeoman.dist %>/javascripts/vendor/*", "test/spec/{,*/}*.js"]
 
     mocha:
       all:
         options:
           run: true
-          urls: ["http://localhost:<%= connect.options.port %>/index.html"]
+          urls: ["http://localhost:<%= express.server.options.port %>/index.html"]
 
     coffee:
       dist:
@@ -104,7 +81,7 @@ module.exports = (grunt) ->
           expand: true
           cwd: "<%= yeoman.src %>/scripts"
           src: "{,*/}*.coffee"
-          dest: "<%= yeoman.app %>/public/javascripts"
+          dest: "<%= yeoman.dist %>/javascripts"
           ext: ".js"
         ]
       src:
@@ -134,11 +111,11 @@ module.exports = (grunt) ->
     compass:
       options:
         sassDir: "<%= yeoman.src %>/styles"
-        cssDir: ".tmp/styles"
+        cssDir: "<%= yeoman.dist %>/stylesheets"
         generatedImagesDir: ".tmp/images/generated"
         imagesDir: "<%= yeoman.app %>/images"
-        javascriptsDir: "<%= yeoman.app %>/public/javascripts"
-        fontsDir: "<%= yeoman.app %>/styles/fonts"
+        javascriptsDir: "<%= yeoman.dist %>/javascripts"
+        fontsDir: "<%= yeoman.app %>/stylesheets/fonts"
         importPath: "<%= yeoman.app %>/bower_components"
         httpImagesPath: "/images"
         httpGeneratedImagesPath: "/images/generated"
@@ -152,20 +129,17 @@ module.exports = (grunt) ->
     rev:
       dist:
         files:
-          src: ["<%= yeoman.app %>/public/javascripts/{,*/}*.js", "<%= yeoman.app %>/public/stylesheets/{,*/}*.css", "<%= yeoman.app %>/public/images/{,*/}*.{png,jpg,jpeg,gif,webp}"]
+          src: ["<%= yeoman.dist %>/assets/*.js", "<%= yeoman.dist %>/assets/*.css"]
 
     useminPrepare:
-      options:
-        dest: "<%= yeoman.app %>/public/javascripts"
-
-      html: "<%= yeoman.app %>/views/layoutHead.ejs"
+      options: ""
 
     usemin:
       options:
-        dirs: ["<%= yeoman.app %>/public/javascripts"]
+        dirs: ["<%= yeoman.dist %>/assets"]
 
       html: ["<%= yeoman.app %>/views/{,*/}*.ejs"]
-      css: ["<%= yeoman.app %>/public/stylesheets/{,*/}*.css"]
+      css: ["<%= yeoman.dist %>/assets/{,*/}*.css"]
 
     imagemin:
       dist:
@@ -179,61 +153,27 @@ module.exports = (grunt) ->
     cssmin:
       dist:
         files:
-          "<%= yeoman.dist %>/stylesheets/main.css": [".tmp/styles/{,*/}*.css"]
+          "<%= yeoman.dist %>/assets/main.css": ["<%= yeoman.dist %>/stylesheets/{,*/}*.css"]
 
-    htmlmin:
+    concat:
       dist:
-        options: {}
+        src: ["<%= yeoman.dist %>/javascripts/{,*/}*.js"]
+        dest: "<%= yeoman.dist %>/assets/main.js"
 
-        #removeCommentsFromCDATA: true,
-        #                    // https://github.com/yeoman/grunt-usemin/issues/44
-        #                    //collapseWhitespace: true,
-        #                    collapseBooleanAttributes: true,
-        #                    removeAttributeQuotes: true,
-        #                    removeRedundantAttributes: true,
-        #                    useShortDoctype: true,
-        #                    removeEmptyAttributes: true,
-        #                    removeOptionalTags: true
-        files: [
-          expand: true
-          cwd: "<%= yeoman.app %>"
-          src: "*.html"
-          dest: "<%= yeoman.dist %>"
-        ]
-
-
-    # Put files not handled in other tasks here
-    copy:
+    uglify:
       dist:
-        files: [
-          expand: true
-          dot: true
-          cwd: "<%= yeoman.app %>"
-          dest: "<%= yeoman.dist %>"
-          src: ["*.{ico,txt}", ".htaccess", "images/{,*/}*.{webp,gif}", "styles/fonts/*"]
-        ,
-          expand: true
-          cwd: ".tmp/images"
-          dest: "<%= yeoman.dist %>/images"
-          src: ["generated/*"]
-        ]
+        files: "<%= yeoman.dist %>/assets/main.min.js": ["<%= yeoman.dist %>/javascripts/{,*/}*.js"]
 
     concurrent:
       server: ["coffee:dist", "coffee:src", "compass:server"]
       test: ["coffee", "compass"]
-      dist: ["coffee", "compass:dist", "imagemin", "htmlmin"]
-
-    express:
-      server:
-        options:
-          bases: "app"
-          server: path.resolve("app/app")
+      dist: ["coffee", "compass:dist", "imagemin"]
 
   grunt.registerTask "server", (target) ->
-    return grunt.task.run(["build", "open", "connect:dist:keepalive"])  if target is "dist"
-    grunt.task.run ["clean:server", "concurrent:server", "connect:livereload", "open", "watch"]
-    #grunt.task.run ["clean:server", "concurrent:server", "express", "open", "watch"]
+    return grunt.task.run(["build", "open", "express:keepalive"])  if target is "dist"
+    grunt.task.run ["clean:server", "concurrent:server", "express", "open", "watch"]
 
-  grunt.registerTask "test", ["clean:server", "concurrent:test", "connect:test", "mocha"]
-  grunt.registerTask "build", ["clean:dist", "useminPrepare", "concurrent:dist", "cssmin", "copy", "rev", "usemin"]
-  grunt.registerTask "default", ["jshint", "test", "build"]
+  #grunt.registerTask "test", ["clean:server", "concurrent:test", "mocha"]
+  grunt.registerTask "test", []
+  grunt.registerTask "build", ["clean:dist", "useminPrepare", "concurrent:dist", "cssmin", "uglify", "rev", "usemin"]
+  grunt.registerTask "default", ["test", "build"]
