@@ -44,7 +44,7 @@ module.exports = (grunt) ->
           tasks: ["coffee:src"]
 
       coffeeTest:
-        files: ["test/spec/{,*/}*.coffee"]
+        files: ["<%= yeoman.test %>/{,*/}*.coffee"]
         tasks: ["connect:test", "coffee:test", "mocha"]
         options:
           nospawn: false
@@ -111,11 +111,13 @@ module.exports = (grunt) ->
       test:
         files: [
           expand: true
-          cwd: "test/spec"
+          cwd: "<%= yeoman.test %>"
           src: "{,*/}*.coffee"
           dest: "<%= yeoman.test %>"
           ext: ".js"
         ]
+        options:
+          bare: true
 
     compass:
       options:
