@@ -1,8 +1,10 @@
 [![Build Status](https://secure.travis-ci.org/natsumesou/toire.tv.png?branch=master)](http://travis-ci.org/natsumesou/toire.tv)
 
-* DEVELOPMENT
+# DEVELOPMENT
+
     grunt server
 
-* PRODUCTION
+# PRODUCTION
+
     grunt
     PORT=80 forever start app/app.js
