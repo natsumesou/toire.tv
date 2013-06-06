@@ -6,5 +6,9 @@ app/bower_components
 app/public/assets
 
 .DS_Store
-**/*.js
-**/*.css
+
+*.js
+*.css
+
+app/public/*
+app/routes/*
