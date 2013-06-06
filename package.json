@@ -27,6 +27,7 @@
     "grunt-open": "~0.2.0",
     "grunt-concurrent": "~0.1.0",
     "grunt-express": "~0.3.6",
+    "grunt-bower-task": "~0.2.3",
     "matchdep": "~0.1.1",
     "express-livereload": "~0.0.24",
     "oauth": "~0.9.10"

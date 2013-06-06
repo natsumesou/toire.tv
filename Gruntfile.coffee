@@ -180,10 +180,16 @@ module.exports = (grunt) ->
       test: ["coffee", "compass"]
       dist: ["coffee", "compass:dist", "imagemin"]
 
+    bower:
+      install:
+        options:
+          targetDir: "app/bower_components"
+          copy: false
+
   grunt.registerTask "server", (target) ->
     return grunt.task.run(["build", "open", "express:keepalive"])  if target is "dist"
-    grunt.task.run ["concurrent:server", "uglify", "express", "open", "watch"]
+    grunt.task.run ["bower", "concurrent:server", "uglify", "express", "open", "watch"]
 
   grunt.registerTask "test", ["concurrent:test", "connect:test", "coffee:test", "mocha"]
   grunt.registerTask "build", ["clean:dist", "useminPrepare", "concurrent:dist", "cssmin", "uglify", "rev", "usemin"]
-  grunt.registerTask "default", ["test", "build"]
+  grunt.registerTask "default", ["bower", "test", "build"]
