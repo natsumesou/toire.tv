@@ -36,10 +36,10 @@ module.exports = (grunt) ->
 
       coffee:
         files: ["<%= yeoman.src %>/scripts/{,*/}*.coffee"]
-        tasks: ["coffee:dist"]
+        tasks: ["coffee:dist", "uglify"]
 
       coffeeSrc:
-          files: ["<%= yeoman.src %>/{,*/}*.coffee"]
+          files: ["<%= yeoman.src %>/*.coffee", "<%= yeoman.src %>/scripts/*.coffee"]
           tasks: ["coffee:src"]
 
       coffeeTest:
@@ -58,7 +58,7 @@ module.exports = (grunt) ->
       dist:
         files: [
           dot: true
-          src: [".tmp", "<%= yeoman.dist %>/*", "!<%= yeoman.dist %>/.git*"]
+          src: ["<%= yeoman.dist %>/*", "!<%= yeoman.dist %>/.git*"]
         ]
 
       server: ".tmp"
@@ -132,11 +132,13 @@ module.exports = (grunt) ->
           src: ["<%= yeoman.dist %>/assets/*.js", "<%= yeoman.dist %>/assets/*.css"]
 
     useminPrepare:
-      options: ""
+      html: "<%= yeoman.app %>/views/layoutHead.ejs"
+      options:
+        dest: "<%= yeoman.dist %>"
 
     usemin:
       options:
-        dirs: ["<%= yeoman.dist %>/assets"]
+        basedir: "<%= yeoman.dist %>"
 
       html: ["<%= yeoman.app %>/views/{,*/}*.ejs"]
       css: ["<%= yeoman.dist %>/assets/{,*/}*.css"]
@@ -154,11 +156,6 @@ module.exports = (grunt) ->
       dist:
         files:
           "<%= yeoman.dist %>/assets/main.css": ["<%= yeoman.dist %>/stylesheets/{,*/}*.css"]
-
-    concat:
-      dist:
-        src: ["<%= yeoman.dist %>/javascripts/{,*/}*.js"]
-        dest: "<%= yeoman.dist %>/assets/main.js"
 
     uglify:
       dist:
