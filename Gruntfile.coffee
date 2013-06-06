@@ -179,7 +179,7 @@ module.exports = (grunt) ->
 
     concurrent:
       server: ["coffee:dist", "coffee:src", "compass:server"]
-      test: ["coffee", "compass"]
+      test: ["coffee"]
       dist: ["coffee", "compass:dist", "imagemin"]
 
     bower:
