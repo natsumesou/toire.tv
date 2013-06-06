@@ -17,6 +17,7 @@ module.exports = (grunt) ->
     app: "app"
     dist: "app/public"
     src: "src"
+    test: "test/spec"
 
   expressConfig =
     port: 3000
@@ -44,7 +45,9 @@ module.exports = (grunt) ->
 
       coffeeTest:
         files: ["test/spec/{,*/}*.coffee"]
-        tasks: ["coffee:test"]
+        tasks: ["connect:test", "coffee:test", "mocha"]
+        options:
+          nospawn: false
 
       compass:
         files: ["<%= yeoman.src %>/styles/{,*/}*.{scss,sass}"]
@@ -61,19 +64,25 @@ module.exports = (grunt) ->
           src: ["<%= yeoman.dist %>/*", "!<%= yeoman.dist %>/.git*"]
         ]
 
-      server: ".tmp"
-
     jshint:
       options:
         jshintrc: ".jshintrc"
 
       all: ["Gruntfile.js", "<%= yeoman.dist %>/{,*/}*.js", "!<%= yeoman.dist %>/javascripts/vendor/*", "test/spec/{,*/}*.js"]
 
+    connect:
+      options:
+        port: 9000
+        hostname: "localhost"
+      test:
+        options:
+          base: "test"
+
     mocha:
       all:
         options:
           run: true
-          urls: ["http://localhost:<%= express.server.options.port %>/index.html"]
+          urls: ["http://localhost:<%= connect.options.port %>/index.html"]
 
     coffee:
       dist:
@@ -104,7 +113,7 @@ module.exports = (grunt) ->
           expand: true
           cwd: "test/spec"
           src: "{,*/}*.coffee"
-          dest: ".tmp/spec"
+          dest: "<%= yeoman.test %>"
           ext: ".js"
         ]
 
@@ -158,6 +167,11 @@ module.exports = (grunt) ->
           "<%= yeoman.dist %>/assets/main.css": ["<%= yeoman.dist %>/stylesheets/{,*/}*.css"]
 
     uglify:
+      vendor:
+        files: "<%= yeoman.dist %>/assets/vendor.min.js": [
+          "<%= yeoman.app %>/bower_components/jquery/jquery.min.js",
+          "<%= yeoman.app %>/bower_components/modernizr/modernizr.js",
+        ]
       dist:
         files: "<%= yeoman.dist %>/assets/main.min.js": ["<%= yeoman.dist %>/javascripts/{,*/}*.js"]
 
@@ -168,9 +182,8 @@ module.exports = (grunt) ->
 
   grunt.registerTask "server", (target) ->
     return grunt.task.run(["build", "open", "express:keepalive"])  if target is "dist"
-    grunt.task.run ["clean:server", "concurrent:server", "express", "open", "watch"]
+    grunt.task.run ["concurrent:server", "uglify", "express", "open", "watch"]
 
-  #grunt.registerTask "test", ["clean:server", "concurrent:test", "mocha"]
-  grunt.registerTask "test", []
+  grunt.registerTask "test", ["concurrent:test", "connect:test", "coffee:test", "mocha"]
   grunt.registerTask "build", ["clean:dist", "useminPrepare", "concurrent:dist", "cssmin", "uglify", "rev", "usemin"]
   grunt.registerTask "default", ["test", "build"]
