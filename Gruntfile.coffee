@@ -49,6 +49,10 @@ module.exports = (grunt) ->
         options:
           nospawn: false
 
+      template:
+        files: ["<%= yeoman.src %>/views/{,*/}*.{ejs,html}"]
+        tasks: ["copy:template"]
+
       compass:
         files: ["<%= yeoman.src %>/styles/{,*/}*.{scss,sass}"]
         tasks: ["compass:server"]
@@ -83,6 +87,15 @@ module.exports = (grunt) ->
         options:
           run: true
           urls: ["http://localhost:<%= connect.options.port %>/index.html"]
+
+    copy:
+      template:
+        files: [
+          expand: true
+          cwd: "<%= yeoman.src %>/views/"
+          src: ["**"]
+          dest: "<%= yeoman.app %>/views/"
+        ]
 
     coffee:
       dist:
@@ -123,13 +136,9 @@ module.exports = (grunt) ->
       options:
         sassDir: "<%= yeoman.src %>/styles"
         cssDir: "<%= yeoman.dist %>/stylesheets"
-        generatedImagesDir: ".tmp/images/generated"
-        imagesDir: "<%= yeoman.app %>/images"
         javascriptsDir: "<%= yeoman.dist %>/javascripts"
         fontsDir: "<%= yeoman.app %>/stylesheets/fonts"
         importPath: "<%= yeoman.app %>/bower_components"
-        httpImagesPath: "/images"
-        httpGeneratedImagesPath: "/images/generated"
         relativeAssets: false
 
       dist: {}
@@ -154,15 +163,6 @@ module.exports = (grunt) ->
       html: ["<%= yeoman.app %>/views/{,*/}*.ejs"]
       css: ["<%= yeoman.dist %>/assets/{,*/}*.css"]
 
-    imagemin:
-      dist:
-        files: [
-          expand: true
-          cwd: "<%= yeoman.app %>/images"
-          src: "{,*/}*.{png,jpg,jpeg}"
-          dest: "<%= yeoman.dist %>/images"
-        ]
-
     cssmin:
       dist:
         files:
@@ -180,7 +180,7 @@ module.exports = (grunt) ->
     concurrent:
       server: ["coffee:dist", "coffee:src", "compass:server"]
       test: ["coffee"]
-      dist: ["coffee", "compass:dist", "imagemin"]
+      dist: ["coffee", "compass:dist"]
 
     bower:
       install:
@@ -190,8 +190,8 @@ module.exports = (grunt) ->
 
   grunt.registerTask "server", (target) ->
     return grunt.task.run(["build", "open", "express:keepalive"])  if target is "dist"
-    grunt.task.run ["bower", "concurrent:server", "uglify", "express", "open", "watch"]
+    grunt.task.run ["bower", "copy", "concurrent:server", "uglify", "express", "open", "watch"]
 
   grunt.registerTask "test", ["concurrent:test", "connect:test", "coffee:test", "mocha"]
-  grunt.registerTask "build", ["clean:dist", "useminPrepare", "concurrent:dist", "cssmin", "uglify", "rev", "usemin"]
+  grunt.registerTask "build", ["clean:dist", "copy", "useminPrepare", "concurrent:dist", "cssmin", "uglify", "rev", "usemin"]
   grunt.registerTask "default", ["bower", "test", "build"]
