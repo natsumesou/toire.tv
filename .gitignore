@@ -13,3 +13,5 @@ app/public/assets
 app/public/*
 app/routes/*
 app/views/*
+
+config/app.json

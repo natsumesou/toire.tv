@@ -1,0 +1,9 @@
+{
+  "app": {
+    "sessionSecret": ""
+  },
+  "twitch": {
+    "clientId": "",
+    "clientSecret": ""
+  }
+}

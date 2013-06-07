@@ -40,7 +40,7 @@ module.exports = (grunt) ->
         tasks: ["coffee:dist", "uglify"]
 
       coffeeSrc:
-          files: ["<%= yeoman.src %>/*.coffee", "<%= yeoman.src %>/scripts/*.coffee"]
+          files: ["<%= yeoman.src %>/*.coffee", "<%= yeoman.src %>/routes/*.coffee", "<%= yeoman.src %>/models/*.coffee"]
           tasks: ["coffee:src"]
 
       coffeeTest:
@@ -118,6 +118,12 @@ module.exports = (grunt) ->
           cwd: "<%= yeoman.src %>/routes"
           src: "{,*/}*.coffee"
           dest: "<%= yeoman.app %>/routes"
+          ext: ".js"
+        ,
+          expand: true
+          cwd: "<%= yeoman.src %>/models"
+          src: "{,*/}*.coffee"
+          dest: "<%= yeoman.app %>/models"
           ext: ".js"
         ]
 
