@@ -166,7 +166,10 @@ module.exports = (grunt) ->
     cssmin:
       dist:
         files:
-          "<%= yeoman.dist %>/assets/main.css": ["<%= yeoman.dist %>/stylesheets/{,*/}*.css"]
+          "<%= yeoman.dist %>/assets/main.css": [
+            "<%= yeoman.dist %>/stylesheets/init.css",
+            "<%= yeoman.dist %>/stylesheets/app.css",
+          ]
 
     uglify:
       vendor:
