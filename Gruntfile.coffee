@@ -96,6 +96,13 @@ module.exports = (grunt) ->
           src: ["**"]
           dest: "<%= yeoman.app %>/views/"
         ]
+      vendor:
+        files: [
+          expand: true
+          cwd: "<%= yeoman.app %>/vendor/"
+          src: ["**"]
+          dest: "<%= yeoman.dist %>/assets/"
+        ]
 
     coffee:
       dist:

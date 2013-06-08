@@ -22,11 +22,14 @@ app.use express.cookieParser()
 app.use express.session(secret: config.app.sessionSecret)
 app.use app.router
 app.use express.static(path.join(__dirname, "public"))
+app.use routes.notFound
+app.use routes.internalError if "production" is app.get("env")
 
 # development only
-app.use express.errorHandler()  if "development" is app.get("env")
+app.use express.errorHandler() if "development" is app.get("env")
 
 app.get "/", routes.index
+
 
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")
