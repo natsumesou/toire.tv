@@ -7,4 +7,4 @@
 ## PRODUCTION
 
     grunt
-    PORT=80 forever start app/app.js
+    forever start app/app.js
