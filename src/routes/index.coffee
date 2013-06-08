@@ -2,7 +2,7 @@
 
 exports.index = (req, res) ->
   now = new Date()
-  startDate = new Date(2013, 5, 10, 0, 0)
+  startDate = new Date(2013, 5, 15, 22, 0)
   if(now < startDate)
     res.render "countdown/index"
   else

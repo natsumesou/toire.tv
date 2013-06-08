@@ -10,8 +10,8 @@ $("#countdown").countDown(
   targetDate:
     'year': 2013
     'month': 6
-    'day': 10
-    'hour': 0
+    'day': 15
+    'hour': 22
     'min': 0
     'sec': 0
   onComplete: reloadPage
