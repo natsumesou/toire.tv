@@ -11,7 +11,9 @@ app/public/assets
 !app/vendor/*.js
 *.css
 
-app/public/*
+app/public/assets/*
+app/public/javascripts/*
+app/public/stylesheets/*
 app/routes/*
 app/views/*
 
