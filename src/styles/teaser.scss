@@ -47,14 +47,14 @@ body {
     }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 320px) {
     body {
         font-size: 8px;
     }
     .main #countdown {
-        width: 400px;
+        width: 320px;
         .dash {
-            width: 90px;
+            width: 70px;
             margin-left: 10px;
             .dash_title {
                 bottom: -15px;
