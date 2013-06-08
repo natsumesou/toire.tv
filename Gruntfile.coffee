@@ -173,8 +173,7 @@ module.exports = (grunt) ->
       options:
         basedir: "<%= yeoman.dist %>"
 
-      html: ["<%= yeoman.app %>/views/{,*/}*.ejs"]
-      css: ["<%= yeoman.dist %>/assets/{,*/}*.css"]
+      html: ["<%= yeoman.app %>/views/{,*/}layout*.ejs"]
 
     cssmin:
       vendor:
@@ -186,7 +185,14 @@ module.exports = (grunt) ->
         files:
           "<%= yeoman.dist %>/assets/main.css": [
             "<%= yeoman.dist %>/stylesheets/init.css",
+            "<%= yeoman.dist %>/assets/vendor.min.css",
             "<%= yeoman.dist %>/stylesheets/app.css",
+          ]
+      teaser:
+        files:
+          "<%= yeoman.dist %>/assets/teaser.css": [
+            "<%= yeoman.dist %>/stylesheets/init.css",
+            "<%= yeoman.dist %>/stylesheets/teaser.css",
           ]
 
     uglify:
@@ -196,7 +202,9 @@ module.exports = (grunt) ->
           "<%= yeoman.app %>/bower_components/modernizr/modernizr.js",
         ]
       dist:
-        files: "<%= yeoman.dist %>/assets/main.min.js": ["<%= yeoman.dist %>/javascripts/{,*/}*.js"]
+        files: "<%= yeoman.dist %>/assets/app.min.js": ["<%= yeoman.dist %>/javascripts/app.js"]
+      teaser:
+        files: "<%= yeoman.dist %>/assets/teaser.min.js": ["<%= yeoman.dist %>/javascripts/teaser.js"]
 
     concurrent:
       server: ["coffee:dist", "coffee:src", "compass:server"]
