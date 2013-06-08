@@ -65,7 +65,7 @@ module.exports = (grunt) ->
       dist:
         files: [
           dot: true
-          src: ["<%= yeoman.dist %>/*", "!<%= yeoman.dist %>/.git*"]
+          src: ["<%= yeoman.dist %>/assets/*", "<%= yeoman.dist %>/javascripts/*", "<%= yeoman.dist %>/stylesheets/*", "!<%= yeoman.dist %>/.git*"]
         ]
 
     jshint:
