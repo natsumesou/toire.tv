@@ -170,6 +170,11 @@ module.exports = (grunt) ->
       css: ["<%= yeoman.dist %>/assets/{,*/}*.css"]
 
     cssmin:
+      vendor:
+        files:
+          "<%= yeoman.dist %>/assets/vendor.min.css": [
+            "<%= yeoman.app %>/bower_components/flatstrap/assets/css/bootstrap.min.css"
+          ]
       dist:
         files:
           "<%= yeoman.dist %>/assets/main.css": [
@@ -199,7 +204,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask "server", (target) ->
     return grunt.task.run(["build", "open", "express:keepalive"])  if target is "dist"
-    grunt.task.run ["bower", "copy", "concurrent:server", "uglify", "express", "open", "watch"]
+    grunt.task.run ["bower", "copy", "concurrent:server", "cssmin:vendor", "uglify", "express", "open", "watch"]
 
   grunt.registerTask "test", ["concurrent:test", "connect:test", "coffee:test", "mocha"]
   grunt.registerTask "build", ["clean:dist", "copy", "useminPrepare", "concurrent:dist", "cssmin", "uglify", "rev", "usemin"]

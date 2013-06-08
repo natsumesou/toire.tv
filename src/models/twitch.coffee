@@ -26,10 +26,3 @@ module.exports = ->
       redirect_uri: this.redirectUri
       grant_type: 'authorization_code'
     oauth.getOAuthAccessToken(code, params, callback)
-  getUserData: (access_token) ->
-    OAuth2 = OAuth.OAuth2
-    oauth = new OAuth2(config.twitch.clientId, config.twitch.clientSecret, this.baseUrl, this.authPath, this.tokenPath, null)
-    callback = (resp) ->
-      console.log "test"
-      console.log resp
-    oauth.get(this.baseUrl + "/user", access_token, callback)
