@@ -18,3 +18,5 @@ app/routes/*
 app/views/*
 
 config/app.json
+
+log/*
