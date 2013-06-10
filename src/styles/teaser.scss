@@ -20,8 +20,14 @@ body {
     #countdown {
         width: 600px;
         height: 8em;
-        margin: 5em auto;
+        margin: 0 auto;
+        padding: 5em 0;
         line-height: 1;
+
+        background-image: url('/images/screenshot.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
 
         .dash {
             float: left;
@@ -45,6 +51,9 @@ body {
             }
         }
     }
+
+    #countdown:before {
+    }
 }
 
 @media screen and (max-width: 320px) {
@@ -66,6 +75,38 @@ body {
             .digit {
                 width: 35px;
             }
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        font-size: 10px;
+    }
+    .main #countdown {
+        width: 400px;
+        .dash {
+            width: 90px;
+            margin-left: 10px;
+            .dash_title {
+                right: 20px;
+                bottom: -15px;
+                font-size: 2em;
+                letter-spacing: 0;
+                text-transform: none;
+            }
+            .digit {
+                width: 40px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .main #countdown {
+        width: 540px;
+        .dash {
+            width: 110px;
         }
     }
 }
