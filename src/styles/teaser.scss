@@ -51,30 +51,13 @@ body {
             }
         }
     }
-
-    #countdown:before {
-    }
 }
 
-@media screen and (max-width: 320px) {
-    body {
-        font-size: 8px;
-    }
+@media screen and (max-width: 600px) {
     .main #countdown {
-        width: 320px;
+        width: 540px;
         .dash {
-            width: 70px;
-            margin-left: 10px;
-            .dash_title {
-                right: 5px;
-                bottom: -15px;
-                font-size: 2em;
-                letter-spacing: 0;
-                text-transform: none;
-            }
-            .digit {
-                width: 35px;
-            }
+            width: 110px;
         }
     }
 }
@@ -85,6 +68,8 @@ body {
     }
     .main #countdown {
         width: 400px;
+        background-size: 80%;
+
         .dash {
             width: 90px;
             margin-left: 10px;
@@ -98,15 +83,6 @@ body {
             .digit {
                 width: 40px;
             }
-        }
-    }
-}
-
-@media screen and (max-width: 540px) {
-    .main #countdown {
-        width: 540px;
-        .dash {
-            width: 110px;
         }
     }
 }
