@@ -86,3 +86,27 @@ body {
         }
     }
 }
+
+@media screen and (max-width: 320px) {
+    body {
+        font-size: 8px;
+    }
+    .main #countdown {
+        width: 300px;
+        .dash {
+            width: 70px;
+            margin-left: 5px;
+            .dash_title {
+                right: 20px;
+                bottom: -10px;
+                font-size: 1.5em;
+                letter-spacing: 0;
+                text-transform: none;
+            }
+            .digit {
+                width: 30px;
+            }
+        }
+    }
+}
+
