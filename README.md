@@ -7,4 +7,3 @@
 ## PRODUCTION
 
     grunt
-    NODE_ENV=production forever -e log/error.log start app/app.js
