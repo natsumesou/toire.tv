@@ -18,6 +18,7 @@ module.exports = (grunt) ->
     dist: "app/public"
     src: "src"
     test: "test/spec"
+    tmp: ".tmp"
 
   expressConfig =
     port: 3000
@@ -65,7 +66,17 @@ module.exports = (grunt) ->
       dist:
         files: [
           dot: true
-          src: ["<%= yeoman.dist %>/assets/*", "<%= yeoman.dist %>/javascripts/*", "<%= yeoman.dist %>/stylesheets/*", "!<%= yeoman.dist %>/.git*"]
+          src: ["<%= yeoman.dist %>/assets/*", "!<%= yeoman.dist %>/.git*"]
+        ]
+      instant:
+        files: [
+          dot: true
+          src: ["<%= yeoman.dist %>/javascripts/*", "<%= yeoman.dist %>/stylesheets/*", "!<%= yeoman.dist %>/.git*"]
+        ]
+      tmp:
+        files: [
+          dot: false
+          src: ["<%= yeoman.tmp %>/*"]
         ]
 
     jshint:
@@ -100,6 +111,13 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: "<%= yeoman.app %>/vendor/"
+          src: ["**"]
+          dest: "<%= yeoman.dist %>/assets/"
+        ]
+      assets:
+        files: [
+          expand: true
+          cwd: "<%= yeoman.tmp %>"
           src: ["**"]
           dest: "<%= yeoman.dist %>/assets/"
         ]
@@ -178,33 +196,33 @@ module.exports = (grunt) ->
     cssmin:
       vendor:
         files:
-          "<%= yeoman.dist %>/assets/vendor.min.css": [
+          "<%= yeoman.tmp %>/vendor.min.css": [
             "<%= yeoman.app %>/bower_components/flatstrap/assets/css/bootstrap.min.css"
           ]
       dist:
         files:
-          "<%= yeoman.dist %>/assets/main.css": [
+          "<%= yeoman.tmp %>/main.css": [
             "<%= yeoman.dist %>/stylesheets/init.css",
             "<%= yeoman.dist %>/assets/vendor.min.css",
             "<%= yeoman.dist %>/stylesheets/app.css",
           ]
       teaser:
         files:
-          "<%= yeoman.dist %>/assets/teaser.css": [
+          "<%= yeoman.dist %>/teaser.css": [
             "<%= yeoman.dist %>/stylesheets/init.css",
             "<%= yeoman.dist %>/stylesheets/teaser.css",
           ]
 
     uglify:
       vendor:
-        files: "<%= yeoman.dist %>/assets/vendor.min.js": [
+        files: "<%= yeoman.tmp %>/vendor.min.js": [
           "<%= yeoman.app %>/bower_components/jquery/jquery.min.js",
           "<%= yeoman.app %>/bower_components/modernizr/modernizr.js",
         ]
       dist:
-        files: "<%= yeoman.dist %>/assets/app.min.js": ["<%= yeoman.dist %>/javascripts/app.js"]
+        files: "<%= yeoman.tmp %>/app.min.js": ["<%= yeoman.dist %>/javascripts/app.js"]
       teaser:
-        files: "<%= yeoman.dist %>/assets/teaser.min.js": ["<%= yeoman.dist %>/javascripts/teaser.js"]
+        files: "<%= yeoman.tmp %>/teaser.min.js": ["<%= yeoman.dist %>/javascripts/teaser.js"]
 
     concurrent:
       server: ["coffee:dist", "coffee:src", "compass:server"]
@@ -217,10 +235,20 @@ module.exports = (grunt) ->
           targetDir: "app/bower_components"
           copy: false
 
+    forever:
+      options:
+        index: 'app/app.js'
+        logDir: 'log'
+
   grunt.registerTask "server", (target) ->
     return grunt.task.run(["build", "open", "express:keepalive"])  if target is "dist"
     grunt.task.run ["bower", "copy", "concurrent:server", "cssmin:vendor", "uglify", "express", "open", "watch"]
 
   grunt.registerTask "test", ["concurrent:test", "connect:test", "coffee:test", "mocha"]
-  grunt.registerTask "build", ["clean:dist", "copy", "useminPrepare", "concurrent:dist", "cssmin", "uglify", "rev", "usemin"]
+  grunt.registerTask "build", [
+    "clean:tmp", "copy:template", "copy:vendor", "useminPrepare",
+    "concurrent:dist", "cssmin:vendor", "cssmin:dist", "uglify:vendor",
+    "uglify:dist", "clean:dist", "copy:assets", "rev", "usemin",
+    "clean:instant", "forever:restart"
+  ]
   grunt.registerTask "default", ["bower", "test", "build"]
