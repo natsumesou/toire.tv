@@ -10,7 +10,7 @@ module.exports = (grunt) ->
   path = require('path');
 
   # load all grunt tasks
-  require("matchdep").filterDev("grunt-*").forEach grunt.loadNpmTasks
+  require("matchdep").filterAll("grunt-*").forEach grunt.loadNpmTasks
 
   # configurable paths
   yeomanConfig =
