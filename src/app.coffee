@@ -4,11 +4,10 @@
 Module dependencies.
 ###
 express = require("express")
-routes = require("./routes")
 http = require("http")
 path = require("path")
-app = express()
 config = require("../config/app")
+app = express()
 
 # all environments
 app.set "port", process.env.PORT or 3001
@@ -21,13 +20,9 @@ app.use express.methodOverride()
 app.use express.cookieParser()
 app.use app.router
 app.use express.static(path.join(__dirname, "public"))
-app.use routes.notFound
-app.use routes.internalError if "production" is app.get("env")
 
-# development only
-app.use express.errorHandler() if "development" is app.get("env")
-
-app.get "/", routes.index
+# routers
+require("./routes/index.js")(app)
 
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")
