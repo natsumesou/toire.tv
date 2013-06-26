@@ -1,9 +1,26 @@
 {
-  "app": {
-    "sessionSecret": ""
-  },
-  "twitch": {
-    "clientId": "",
-    "clientSecret": ""
-  }
+    "production": {
+        "database": {
+            "hosts": ["localhost"],
+                "db": "toire_production"
+        },
+        "irc": {
+            "host": "irc.twitch.tv",
+            "nickname": "",
+            "password": "",
+            "channels": ["#toiletgame"]
+        }
+    },
+    "development": {
+        "database": {
+            "hosts": ["localhost"],
+            "db": "toire_development"
+        },
+        "irc": {
+            "host": "irc.twitch.tv",
+            "nickname": "",
+            "password": "",
+            "channels": ["#toiletgame"]
+        }
+    }
 }

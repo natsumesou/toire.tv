@@ -14,6 +14,7 @@ module.exports = (grunt) ->
 
   # configurable paths
   yeomanConfig =
+    root: "."
     app: "app"
     dist: "app/public"
     src: "src"
@@ -149,6 +150,12 @@ module.exports = (grunt) ->
           cwd: "<%= yeoman.src %>/models"
           src: "{,*/}*.coffee"
           dest: "<%= yeoman.app %>/models"
+          ext: ".js"
+        ,
+          expand: true
+          cwd: "<%= yeoman.src %>/bin"
+          src: "{,*/}*.coffee"
+          dest: "<%= yeoman.root %>/bin"
           ext: ".js"
         ]
 
