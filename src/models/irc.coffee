@@ -1,7 +1,5 @@
 "use strict"
 
-irc = require('irc')
-
 module.exports = (host, nickname, password, channels) ->
   this.client = new irc.Client(host, nickname,
     channels: channels

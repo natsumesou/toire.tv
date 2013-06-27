@@ -3,10 +3,7 @@
 ###
 Module dependencies.
 ###
-express = require("express")
-http = require("http")
-path = require("path")
-config = require("../config/app")
+require("../config/boot.js")
 app = express()
 
 # all environments

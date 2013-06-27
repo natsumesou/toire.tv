@@ -1,8 +1,8 @@
 "use strict"
 
-env = process.env['NODE_ENV'] || 'development'
-config = require("../config/app")[env].irc
+require("../config/boot.js")
 
-IRC = require("../app/models/irc.js")
-irc = new IRC(config.host, config.nickname, config.password, config.channels)
+config = twitch.config.irc
+
+irc = new twitch.Model.IRC(config.host, config.nickname, config.password, config.channels)
 irc.listen()
