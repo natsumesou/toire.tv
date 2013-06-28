@@ -1,8 +1,10 @@
 {
     "production": {
         "database": {
-            "hosts": ["localhost"],
-                "db": "toire_production"
+            "host": "localhost",
+            "db": "toire_production",
+            "user": "",
+            "password": ""
         },
         "irc": {
             "host": "irc.twitch.tv",
@@ -13,8 +15,10 @@
     },
     "development": {
         "database": {
-            "hosts": ["localhost"],
-            "db": "toire_development"
+            "host": "localhost",
+            "db": "toire_development",
+            "user": "",
+            "password": ""
         },
         "irc": {
             "host": "irc.twitch.tv",

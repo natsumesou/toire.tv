@@ -8,7 +8,11 @@ module.exports = (host, nickname, password, channels) ->
   that = this
   this.listen = ->
     that.client.addListener('message', (user, channel, message) ->
-      console.log(user + ' => ' + channel + ': ' + message)
+      twitch.Model.Message.createWithIndex(
+        user: user
+        channel: channel
+        text: message
+      )
     )
     that.client.addListener('error', (message) ->
       now = new Date()
