@@ -264,4 +264,4 @@ module.exports = (grunt) ->
     "uglify:dist", "clean:dist", "copy:assets", "rev", "usemin",
     "clean:instant", "forever:restart"
   ]
-  grunt.registerTask "default", ["bower", "test", "build"]
+  grunt.registerTask "default", ["bower", "build"]
