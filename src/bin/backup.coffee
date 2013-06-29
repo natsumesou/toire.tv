@@ -11,7 +11,13 @@ backupFilename = dateString + '.zip'
 
 backupDir = '/var/mongodb/'
 
-backupCommand = 'mongodump --host ' + config.host + ':27017 --db ' + config.db + ' --out ' + backupDir
+backupCommand ='mongodump' +
+  ' --host ' + config.host + ':27017' +
+  ' --username ' + config.user +
+  ' --password ' + config.password +
+  ' --db ' + config.db +
+  ' --out ' + backupDir
+
 zipCommand = 'cd ' + backupDir + '; zip -r ' + backupFilename + ' ' + config.db
 removeCommand = 'rm -rf ' + backupDir + config.db
 
