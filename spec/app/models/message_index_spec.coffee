@@ -35,6 +35,18 @@ describe "MessageIndex", ->
           .equal(formattedDate.toDateString())
         done()
       )
+  describe ".findByDate", ->
+    date = new Date(2013, 2, 1)
+    unformattedDate = new Date(2013, 2, 1, 3)
+    beforeEach (done) ->
+      MessageIndex.createByDate(date, done)
+    it "return messageIndex document", (done) ->
+      MessageIndex.findByDate(unformattedDate
+      , (err, messageIndex) ->
+        expect(messageIndex.createdAt.toDateString()).to
+          .equal(date.toDateString())
+        done()
+      )
   describe ".latestMessageIndex", ->
     describe "exist messageIndex", ->
       date = new Date(2013, 2, 1)

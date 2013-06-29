@@ -4,6 +4,7 @@
 twitch = {
   config: {},
   Model: {},
+  Util: null,
   env: null,
 }
 twitch.env =  process.env['NODE_ENV'] || 'development'
@@ -30,6 +31,7 @@ if dbConfig.user and dbConfig.password
 global.mongoose.connect('mongodb://' + dbConfig.host + '/' + dbConfig.db,
   dbOptions);
 
+twitch.Util = require("../app/utils.js")
 twitch.Model.IRC = require("../app/models/irc.js")
 twitch.Model.MessageIndex = require("../app/models/message_index.js")
 twitch.Model.Message = require("../app/models/message.js")

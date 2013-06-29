@@ -22,6 +22,9 @@ MessageIndex.statics =
     indexDate = _toIndexDate(date)
     messageIndex = new this(createdAt: indexDate)
     messageIndex.save(callback)
+  findByDate: (date, callback) ->
+    indexDate = _toIndexDate(date)
+    this.findOne({createdAt: indexDate}, callback)
   latestMessageIndex: (callback) ->
     this.findOne({}, {}, {sort: {createdAt: 1}}, callback)
   allMessageIndexes: (callback) ->

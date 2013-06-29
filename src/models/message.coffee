@@ -35,13 +35,18 @@ Message.statics =
       )
     )
   messagesByDate: (date, callback) ->
+    if isNaN(date.getTime())
+      return callback(null, [])
+    year = date.getFullYear()
+    month = date.getMonth()
+    day = date.getDate()
+    date = new Date(year, month, day)
     nextDate = new Date(date.getTime() + 86400000) # 24 * 60 * 60 * 1000
     this.find(
       { createdAt: {$gte: date, $lt: nextDate} }, {},
       { sort: {createdAt: 1} },
       callback
     )
-
 
 Message = mongoose.model('Message', Message)
 

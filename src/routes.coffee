@@ -7,6 +7,7 @@ module.exports = (app) ->
     res.render "index"
 
   app.get '/chatlog', chatlog.index
+  app.get '/chatlog/:date', chatlog.messagesByDate
 
   # Not Found
   app.use (req, res) ->
