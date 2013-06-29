@@ -26,5 +26,19 @@
             "password": "",
             "channels": ["#toiletgame"]
         }
+    },
+    "test": {
+        "database": {
+            "host": "localhost",
+            "db": "toire_test",
+            "user": "",
+            "password": ""
+        },
+        "irc": {
+            "host": "irc.twitch.tv",
+            "nickname": "",
+            "password": "",
+            "channels": ["#toiletgame"]
+        }
     }
 }

@@ -12,6 +12,10 @@ module.exports = (host, nickname, password, channels) ->
         user: user
         channel: channel
         text: message
+      ,
+        (err, message) ->
+          if err
+            console.error(err)
       )
     )
     that.client.addListener('error', (message) ->

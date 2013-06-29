@@ -18,7 +18,7 @@ module.exports = (grunt) ->
     app: "app"
     dist: "app/public"
     src: "src"
-    test: "test/spec"
+    test: "spec"
     tmp: ".tmp"
 
   expressConfig =
@@ -38,25 +38,25 @@ module.exports = (grunt) ->
         nospawn: true
 
       coffee:
-        files: ["<%= yeoman.src %>/scripts/{,*/}*.coffee"]
+        files: ["<%= yeoman.src %>/scripts/{**/*,*}.coffee"]
         tasks: ["coffee:dist", "uglify"]
 
       coffeeSrc:
-          files: ["<%= yeoman.src %>/*.coffee", "<%= yeoman.src %>/routes/*.coffee", "<%= yeoman.src %>/models/*.coffee"]
+          files: ["<%= yeoman.src %>/{**/*,*}.coffee", "!<%= yeoman.src %>/scripts/{**/*,*}.coffee"]
           tasks: ["coffee:src"]
 
       coffeeTest:
-        files: ["<%= yeoman.test %>/{,*/}*.coffee"]
-        tasks: ["connect:test", "coffee:test", "mocha"]
+        files: ["<%= yeoman.test %>/{**/*,*}.coffee", "<%= yeoman.src %>/models/*.coffee"]
+        tasks: ["coffee:src", "coffee:test", "mochaTest"]
         options:
           nospawn: false
 
       template:
-        files: ["<%= yeoman.src %>/views/{,*/}*.{ejs,html}"]
+        files: ["<%= yeoman.src %>/views/{**/*,*}.{ejs,html}"]
         tasks: ["copy:template"]
 
       compass:
-        files: ["<%= yeoman.src %>/styles/{,*/}*.{scss,sass}"]
+        files: ["<%= yeoman.src %>/styles/{**/*,*}.{scss,sass}"]
         tasks: ["compass:server"]
 
     open:
@@ -84,7 +84,7 @@ module.exports = (grunt) ->
       options:
         jshintrc: ".jshintrc"
 
-      all: ["Gruntfile.js", "<%= yeoman.dist %>/{,*/}*.js", "!<%= yeoman.dist %>/javascripts/vendor/*", "test/spec/{,*/}*.js"]
+      all: ["Gruntfile.js", "<%= yeoman.dist %>/{**/*,*}.js", "!<%= yeoman.dist %>/javascripts/vendor/*", "<%= yeoman.test %>/{**/*,*}.js"]
 
     connect:
       options:
@@ -94,11 +94,11 @@ module.exports = (grunt) ->
         options:
           base: "test"
 
-    mocha:
+    mochaTest:
       all:
         options:
-          run: true
-          urls: ["http://localhost:<%= connect.options.port %>/index.html"]
+          reporter: 'spec'
+        src: ["<%= yeoman.test %>/{**/*,*}.js"]
 
     copy:
       template:
@@ -128,7 +128,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: "<%= yeoman.src %>/scripts"
-          src: "{,*/}*.coffee"
+          src: "{**/*,*}.coffee"
           dest: "<%= yeoman.dist %>/javascripts"
           ext: ".js"
         ]
@@ -148,19 +148,19 @@ module.exports = (grunt) ->
         ,
           expand: true
           cwd: "<%= yeoman.src %>/routes"
-          src: "{,*/}*.coffee"
+          src: "{**/*,*}.coffee"
           dest: "<%= yeoman.app %>/routes"
           ext: ".js"
         ,
           expand: true
           cwd: "<%= yeoman.src %>/models"
-          src: "{,*/}*.coffee"
+          src: "{**/*,*}.coffee"
           dest: "<%= yeoman.app %>/models"
           ext: ".js"
         ,
           expand: true
           cwd: "<%= yeoman.src %>/bin"
-          src: "{,*/}*.coffee"
+          src: "{**/*,*}.coffee"
           dest: "<%= yeoman.root %>/bin"
           ext: ".js"
         ]
@@ -169,7 +169,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: "<%= yeoman.test %>"
-          src: "{,*/}*.coffee"
+          src: "{**/*,*}.coffee"
           dest: "<%= yeoman.test %>"
           ext: ".js"
         ]
@@ -257,7 +257,7 @@ module.exports = (grunt) ->
     return grunt.task.run(["build", "open", "express:keepalive"])  if target is "dist"
     grunt.task.run ["bower", "copy", "concurrent:server", "cssmin:vendor", "uglify", "express", "open", "watch"]
 
-  grunt.registerTask "test", ["concurrent:test", "connect:test", "coffee:test", "mocha"]
+  grunt.registerTask "test", ["concurrent:test", "mochaTest"]
   grunt.registerTask "build", [
     "clean:tmp", "copy:template", "copy:vendor", "useminPrepare",
     "concurrent:dist", "cssmin:vendor", "cssmin:dist", "uglify:vendor",

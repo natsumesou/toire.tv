@@ -6,4 +6,5 @@
 
 ## PRODUCTION
 
+    NODE_ENV=production forever -e log/error.log start bin/twitch.js
     grunt

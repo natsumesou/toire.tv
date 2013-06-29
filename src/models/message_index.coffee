@@ -3,35 +3,32 @@
 MessageIndex = mongoose.Schema(
   createdAt:
     type: Date
-    default: new Date
+    default: new Date()
     required: true
     index:
       unique: true
 )
 
+# check date is saved or not
+MessageIndex.statics =
+  isSavedIndex: (date, callback) ->
+    indexDate = _toIndexDate(date)
+    this.find(createdAt: indexDate).exec (err, messageIndexes) ->
+      result = if messageIndexes.length > 0 then true else false
+      callback(err, result)
+  # create messageindex document by date
+  createByDate: (date, callback) ->
+    indexDate = _toIndexDate(date)
+    messageIndex = new this(createdAt: indexDate)
+    messageIndex.save(callback)
 
-MessageIndex.statics.isSavedIndex = (date) ->
-  indexDate = toIndexDate(date)
-  query = this.find(createdAt: indexDate)
-  return Q.fcall ->
-    query.exec()
-  .then (messageIndexes) ->
-    messageIndexes.length > 0 ? true : false
+MessageIndex = mongoose.model('MessageIndex', MessageIndex)
 
-MessageIndex.statics.createByDate = (date) ->
-  indexDate = toIndexDate(date)
-  this.create(
-    createdAt: indexDate
-  ,
-    (err, messageIndex) ->
-      if err
-        options.error(err)
-  )
-
-toIndexDate = (date) ->
+# change date to formatted date
+_toIndexDate = (date) ->
   year = date.getFullYear()
   month = date.getMonth()
   day = date.getDate()
   new Date(year, month, day)
 
-module.exports = mongoose.model('MessageIndex', MessageIndex)
+module.exports = MessageIndex
