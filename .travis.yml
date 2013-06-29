@@ -7,5 +7,5 @@ before_script:
   - npm install -g grunt-cli
 
 script:
-  - grunt coffee
+  - cp config/app.json.sample config/app.json
   - grunt test
