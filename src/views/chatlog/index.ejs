@@ -3,27 +3,32 @@
 <div class="main">
 <h1>Toire.tv</h1>
     <div id="chatlog">
-        <div id="navigation">
-            <ul>
-            <% for(var i = 0; i < messageIndexes.length; i++) { %>
-                <li><time><%= twitch.Util.formattedDate(messageIndexes[i].createdAt) %></time></li>
-            <% } %>
-            </ul>
-        </div>
-        <div d="content">
+        <div id="content">
             <article>
                 <h2><%= twitch.Util.formattedDate(showDate) %></h2>
                 <ul class="messages">
                     <% for(var i = 0; i < messages.length; i++) { %>
                     <li>
                         <time><%= twitch.Util.formattedTime(messages[i].createdAt) %></time>
-                        <span class="user"><%= messages[i].user %></span>
+                        <span class="user" style="color: #<%=  twitch.Util.colorByName(messages[i].user) %>"><%= messages[i].user %></span>
                         <span class="message"><%= messages[i].text %></span>
                     </li>
                     <% } %>
                 </ul>
             </article>
         </div>
+        <nav id="navigation">
+            <h3>Log Date</h3>
+            <ul>
+            <% for(var i = 0; i < messageIndexes.length; i++) { %>
+                <li>
+                    <a href="/chatlog/<%= twitch.Util.formattedUrlDate(messageIndexes[i].createdAt) %>">
+                        <time><%= twitch.Util.formattedDate(messageIndexes[i].createdAt) %></time>
+                    </a>
+                </li>
+            <% } %>
+            </ul>
+        </nav>
     </div>
 </div>
 

@@ -48,6 +48,116 @@ body {
         }
     }
 
+    #chatlog {
+        width: 960px;
+        min-height: 500px;
+        margin: 0 auto ;
+        text-align: left;
+
+        ul li {
+            list-style-type: none;
+        }
+
+        a:link, a:visited, a:hover, a:active {
+            color: #b9a3e3;
+        }
+
+        #navigation {
+            float: left;
+            width: 200px;
+            background-color: #444;
+
+            h3 {
+                margin: 0;
+                padding: 0 0 0 10px;
+                font-size: 2em;
+                background-color: #8266b6;
+            }
+            ul {
+                margin:  1em 0 1em 20px;
+                font-size: 1.3em;
+
+                li {
+                    margin: .1em 0;
+                }
+            }
+        }
+        #content {
+            float: right;
+            width: 720px;
+            margin: 0 0 0 20px;
+            padding: 0 0 0 20px;
+            background-color: #444;
+            color: #b9a3e3;
+            min-height: 500px;
+
+            h2 {
+                font-size: 3em;
+            }
+
+            ul {
+                padding: 1em 0;
+                color: #fff;
+
+                li {
+                    margin: .2em 0;
+                    font-size: 1.6em;
+                    font-family: 'Monaco', 'Consolas', 'Courier New', Courier, monospace, sans-serif;
+
+                    time {
+                        margin: 0 5px 0 0;
+                    }
+                    .user {
+                        margin: 0 5px 0 0;
+                    }
+                }
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            width: 480px;
+            #navigation {
+                float: none;
+                width: 100%;
+                margin: 0 auto;
+                padding: 0;
+
+                ul {
+                    margin: .3em 0 .3em 20px;
+                    font-size: 2em;
+                    li {
+                        margin: .4em 0;
+                    }
+                }
+            }
+            #content {
+                float: none;
+                width: 100%;
+                margin: 0 auto;
+                padding: 0;
+                h2 {
+                    padding: .2em 0 0 10px;
+                    margin: .3em 0 .1em;
+                    font-size: 2.5em;
+                }
+
+                ul {
+                    padding: .2em 0;
+                    margin: 0 0 0 20px;
+                    li {
+                        margin: .3em 0;
+                    }
+                }
+            }
+        }
+    }
+
+    #chatlog:after {
+        content: '';
+        clear: both;
+        display: block;
+    }
+
     @media screen and (max-width: 1010px) {
         #live_embed_player_flash {
             width: 35%;
