@@ -147,9 +147,9 @@ module.exports = (grunt) ->
           ext: ".js"
         ,
           expand: true
-          cwd: "<%= yeoman.src %>/routes"
+          cwd: "<%= yeoman.src %>/controllers"
           src: "{**/*,*}.coffee"
-          dest: "<%= yeoman.app %>/routes"
+          dest: "<%= yeoman.app %>/controllers"
           ext: ".js"
         ,
           expand: true

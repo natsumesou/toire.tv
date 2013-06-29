@@ -34,6 +34,13 @@ Message.statics =
         callback
       )
     )
+  messagesByDate: (date, callback) ->
+    nextDate = new Date(date.getTime() + 86400000) # 24 * 60 * 60 * 1000
+    this.find(
+      { createdAt: {$gte: date, $lt: nextDate} }, {},
+      { sort: {createdAt: 1} },
+      callback
+    )
 
 
 Message = mongoose.model('Message', Message)

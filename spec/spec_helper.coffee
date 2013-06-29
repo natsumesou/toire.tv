@@ -9,5 +9,5 @@ global.Message = twitch.Model.Message
 global.MessageIndex = twitch.Model.MessageIndex
 
 global.dataCleaner = (done) ->
-  Message.remove()
-  MessageIndex.remove(done)
+  Message.remove ->
+    MessageIndex.remove(done)

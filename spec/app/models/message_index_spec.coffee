@@ -35,3 +35,36 @@ describe "MessageIndex", ->
           .equal(formattedDate.toDateString())
         done()
       )
+  describe ".latestMessageIndex", ->
+    describe "exist messageIndex", ->
+      date = new Date(2013, 2, 1)
+      beforeEach (done) ->
+        MessageIndex.createByDate(date, done)
+      it "get latest messageIndex", (done) ->
+        MessageIndex.latestMessageIndex((err, messageIndex) ->
+          expect(messageIndex.createdAt.toDateString()).to
+            .equal(date.toDateString())
+          done()
+        )
+    describe "not exist messageIndex", ->
+      it "get undefined when not exist", (done) ->
+        MessageIndex.latestMessageIndex( (err, messageIndex) ->
+          expect(messageIndex).to.be.null
+          done()
+        )
+  describe ".allMessageIndexes", ->
+    describe "exist messageIndex", ->
+      date = new Date(2013, 2, 1)
+      beforeEach (done) ->
+        MessageIndex.createByDate(date, done)
+      it "get messageIndexes", (done) ->
+        MessageIndex.allMessageIndexes( (err, messageIndexes) ->
+          expect(messageIndexes.length).to.equal(1)
+          done()
+        )
+    describe "not exist messageIndex", ->
+      it "get undefined when not exist", (done) ->
+        MessageIndex.allMessageIndexes( (err, messageIndexes) ->
+          expect(messageIndexes.length).to.equal(0)
+          done()
+        )

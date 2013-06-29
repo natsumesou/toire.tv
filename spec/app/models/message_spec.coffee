@@ -69,3 +69,24 @@ describe "Message", ->
             done()
           )
         )
+  describe ".messagesByDate", ->
+    prevDate = new Date(2013, 2, 4, 23, 59)
+    date = new Date(2013, 2, 5)
+    dateMax = new Date(2013, 2, 5, 23, 59)
+    nextDate = new Date(2013, 2, 6)
+    dates = [prevDate, date, dateMax, nextDate]
+    beforeEach (done) ->
+      messages = []
+      messages.push {createdAt: prevDate, user: 'user', channel: 'channel', text: 'text1'}
+      messages.push {createdAt: date, user: 'user', channel: 'channel', text: 'text2'}
+      messages.push {createdAt: dateMax, user: 'user', channel: 'channel', text: 'text3'}
+      messages.push {createdAt: nextDate, user: 'user', channel: 'channel', text: 'text4'}
+      Message.create(messages , done)
+    describe "when exist messages", ->
+      it "get messages from date to next date", (done) ->
+        Message.messagesByDate(date, (err, messages) ->
+          expect(messages.length).to.equal(2)
+          expect(messages[0].text).to.equal('text2')
+          expect(messages[1].text).to.equal('text3')
+          done()
+        )

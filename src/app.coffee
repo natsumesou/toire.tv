@@ -19,7 +19,7 @@ app.use app.router
 app.use express.static(path.join(__dirname, "public"))
 
 # routers
-require("./routes/index.js")(app)
+require("./routes.js")(app)
 
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")

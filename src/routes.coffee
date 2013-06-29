@@ -1,8 +1,12 @@
 "use strict"
 
 module.exports = (app) ->
+  chatlog = require('./controllers/chatlog.js')
+
   app.get '/', (req, res) ->
     res.render "index"
+
+  app.get '/chatlog', chatlog.index
 
   # Not Found
   app.use (req, res) ->

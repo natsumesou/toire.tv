@@ -11,6 +11,7 @@ MessageIndex = mongoose.Schema(
 
 # check date is saved or not
 MessageIndex.statics =
+  # date is saved or not
   isSavedIndex: (date, callback) ->
     indexDate = _toIndexDate(date)
     this.find(createdAt: indexDate).exec (err, messageIndexes) ->
@@ -21,6 +22,11 @@ MessageIndex.statics =
     indexDate = _toIndexDate(date)
     messageIndex = new this(createdAt: indexDate)
     messageIndex.save(callback)
+  latestMessageIndex: (callback) ->
+    this.findOne({}, {}, {sort: {createdAt: 1}}, callback)
+  allMessageIndexes: (callback) ->
+    this.find({}, callback)
+
 
 MessageIndex = mongoose.model('MessageIndex', MessageIndex)
 
