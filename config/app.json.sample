@@ -2,7 +2,7 @@
     "production": {
         "database": {
             "host": "localhost",
-            "db": "toire_production",
+            "db": "toilet_production",
             "user": "",
             "password": ""
         },
@@ -16,7 +16,7 @@
     "development": {
         "database": {
             "host": "localhost",
-            "db": "toire_development",
+            "db": "toilet_development",
             "user": "",
             "password": ""
         },
@@ -30,7 +30,7 @@
     "test": {
         "database": {
             "host": "localhost",
-            "db": "toire_test",
+            "db": "toilet_test",
             "user": "",
             "password": ""
         },
