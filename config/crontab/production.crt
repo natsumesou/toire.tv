@@ -1,0 +1,3 @@
+LANG=ja_JP.utf8
+
+0 0 * * * cd /var/toire.tv; /usr/local/bin/node bin/backup.js
