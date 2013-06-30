@@ -24,7 +24,7 @@ Message.statics =
   createWithIndex: (data, callback) ->
     if _isConnectionStartMessage(data.user, data.channel, data.text)
       return callback(null, new this)
-    now = new Date()
+    now = data.createdAt
     twitch.Model.MessageIndex.isSavedIndex(now, (err, isSavedIndex) ->
       _saveMessage(
         savedIndex: isSavedIndex

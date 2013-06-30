@@ -8,10 +8,12 @@ module.exports = (host, nickname, password, channels) ->
   that = this
   this.listen = ->
     that.client.addListener('message', (user, channel, message) ->
+      now = new Date()
       twitch.Model.Message.createWithIndex(
         user: user
         channel: channel
         text: message
+        createdAt: now
       ,
         (err, message) ->
           if err

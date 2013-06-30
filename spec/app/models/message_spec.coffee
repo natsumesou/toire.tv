@@ -15,6 +15,7 @@ describe "Message", ->
             user: 'user'
             channel: '#test'
             text: 'message'
+            createdAt: new Date()
           Message.createWithIndex(data, (err, message) ->
             expect(message.user).to.equal(data.user)
             expect(message.channel).to.equal(data.channel)
@@ -33,6 +34,7 @@ describe "Message", ->
             user: 'user'
             channel: '#test'
             text: 'message'
+            createdAt: new Date()
           Message.createWithIndex(data, (err, message) ->
             MessageIndex.count({}, (err, count)->
               expect(count).to.equal(1)
@@ -48,6 +50,7 @@ describe "Message", ->
             user: 'user'
             channel: '#test'
             text: 'message'
+            createdAt: new Date()
           Message.createWithIndex(data, (err, message) ->
             MessageIndex.count({}, (err, count)->
               expect(count).to.equal(2)
@@ -60,6 +63,7 @@ describe "Message", ->
           user: 'jtv'
           channel: twitch.config.irc.nickname
           text: 'HISTORYEND test'
+          createdAt: new Date()
         Message.createWithIndex(data, (err, message) ->
           expect(message.user).to.be.undefined
           expect(message.channel).to.be.undefined

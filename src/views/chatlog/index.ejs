@@ -10,7 +10,7 @@
                     <% for(var i = 0; i < messages.length; i++) { %>
                     <li>
                         <time><%= twitch.Util.formattedTime(messages[i].createdAt) %></time>
-                        <span class="user" style="color: #<%=  twitch.Util.colorByName(messages[i].user) %>"><%= messages[i].user %></span>
+                        <span class="user" style="color: #<%=  twitch.Util.colorByName(messages[i].user) %>"><%= messages[i].user %>:</span>
                         <span class="message"><%= messages[i].text %></span>
                     </li>
                     <% } %>
