@@ -28,7 +28,7 @@ MessageIndex.statics =
   latestMessageIndex: (callback) ->
     this.findOne({}, {}, {sort: {createdAt: 1}}, callback)
   allMessageIndexes: (callback) ->
-    this.find({}, callback)
+    this.find({}, {}, { sort: {createdAt: -1}}, callback)
 
 
 MessageIndex = mongoose.model('MessageIndex', MessageIndex)
