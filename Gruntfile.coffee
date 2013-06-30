@@ -216,7 +216,7 @@ module.exports = (grunt) ->
         files:
           "<%= yeoman.tmp %>/main.css": [
             "<%= yeoman.dist %>/stylesheets/init.css",
-            "<%= yeoman.dist %>/assets/vendor.min.css",
+            "<%= yeoman.tmp %>/vendor.min.css",
             "<%= yeoman.dist %>/stylesheets/app.css",
           ]
       teaser:
