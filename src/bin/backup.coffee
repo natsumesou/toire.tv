@@ -1,12 +1,17 @@
 "use strict"
 
+forceTwoDigits = (val) ->
+  if val < 10
+    return "0#{val}"
+  return val
+
 exec = require('child_process').exec
 require("../config/boot.js")
 config = twitch.config.database
 date = new Date()
 dateString = date.getFullYear().toString()
-dateString += date.getMonth() + 1
-dateString += date.getDate()
+dateString += forceTwoDigits(date.getMonth() + 1)
+dateString += forceTwoDigits(date.getDate())
 backupFilename = dateString + '.zip'
 
 backupDir = '/var/mongodb/'

@@ -1,3 +1,4 @@
 LANG=ja_JP.utf8
 
 0 7 * * * cd /var/toire.tv; NODE_ENV=production /usr/local/bin/node bin/backup.js
+3 10 * * * /usr/local/bin/forever restartall
